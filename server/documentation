@@ -1,0 +1,62 @@
+1. in server npm init --yes; npm pkg set type="module"
+-inititalize Node.js project
+-allows to use import and export instead of require and module.exports
+
+2. npm install @apollo/server graphql - pagkage
+Apollo Server package, which allows you to create a GraphQL server in Node.js
+GraphQL works in JavaScript. to executes graphql queries.
+
+3. Entry point server.js
+
+import { ApolloServer} from '@apollo/server' 
+import { startStandaloneServer } from '@apollo/server/standalone'
+
+ApolloServer → This is the main class used to create a GraphQL server.
+startStandaloneServer → This is a helper function that starts the server without needing Express or other frameworks. It handles CORS, body parsing, and other server configurations.
+
+const server = new ApolloServer({})
+
+startStandaloneServer(server).then(({ url }) => {
+    console.log(`🚀 Server ready at ${url}`);
+});
+
+startStandaloneServer(server) starts the server without needing Express or other frameworks.
+
+After the server starts, it logs the URL where it's running.
+
+to Understanding GraphQL Core Elements
+
+GraphQL has two main operations:
+
+Query (Fetching Data)
+
+A query is used to fetch data from the server, similar to a GET request in REST APIs.
+
+Mutation (Modifying Data)
+
+A mutation is used to modify data on the server, like POST, PUT, or DELETE in REST APIs.
+
+The typeDefs define the GraphQL schema. It describes what data clients can request and modify.
+
+const typeDefs = `
+    type Query {
+        getUsers: [User]
+        getUserById(id: ID!): User
+    }
+
+    type Mutation {
+        createUser(name: String!,age: Int!,isMarried: Boolean!): User
+    }
+
+    type User {
+        id: ID
+        name: String
+        age: Int
+        isMarried: Boolean
+    }
+`
+
+Resolvers are functions that helps Retrieve requested data for queries and Modify existing data for mutations.
+Connect queries/mutations with data sources (e.g., databases, APIs, in-memory storage).
+
+interact with datasource and deal with the data 
