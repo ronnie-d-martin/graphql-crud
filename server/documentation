@@ -63,3 +63,30 @@ Resolvers are functions that helps Retrieve requested data for queries and Modif
 Connect queries/mutations with data sources (e.g., databases, APIs, in-memory storage).
 
 interact with datasource and deal with the data 
+
+const resolvers = {
+    Query: {
+        getUsers: () => { return users },
+        getUserById: (_, args) => {
+            const id = args.id;
+            console.log(`Fetching user with id: ${id}`); 
+            const user = users.find(user => user.id === id);
+            console.log(`Found user: ${JSON.stringify(user)}`); 
+            return user;
+        }
+    },
+    Mutation: {
+        createUser: (_, args) => {
+            const { name, age, isMarried } = args;
+            const newUser = {
+                id: (users.length + 1).toString(),
+                name,
+                age,
+                isMarried,
+            }
+            users.push(newUser);
+            console.log('New user created:', newUser);
+            return newUser;
+        }
+    }
+}
