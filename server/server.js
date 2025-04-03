@@ -15,6 +15,7 @@ const typeDefs = `
 
     type Mutation {
         createUser(name: String!, age: Int!, isMarried: Boolean!): User
+        deleteUser(id: ID!): User
     }
 
     type User {
@@ -30,9 +31,7 @@ const resolvers = {
         getUsers: () => { return users },
         getUserById: (_, args) => {
             const id = args.id;
-            console.log(`Fetching user with id: ${id}`); 
             const user = users.find(user => user.id === id);
-            console.log(`Found user: ${JSON.stringify(user)}`); 
             return user;
         }
     },
@@ -46,9 +45,17 @@ const resolvers = {
                 isMarried,
             }
             users.push(newUser);
-            console.log('New user created:', newUser);
             return newUser;
+        },
+        deleteUser: (_, args) => {
+            const userIndex = users.findIndex(user => user.id === args.id);
+            if (userIndex === -1) {
+                throw new Error("User not found");
+            }
+            const [deletedUser] = users.splice(userIndex, 1);
+            return deletedUser; 
         }
+
     }
 }
 
