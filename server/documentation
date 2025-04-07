@@ -1,4 +1,4 @@
-GraphQL is a query language for APIs and a runtime for handling those queries. It lets clients request exactly the data they need, nothing more and nothing less.
+GraphQL is a query language for APIs and a runtime for handling those queries. lets clients request exactly the data they need, nothing more and nothing less.
 
 🔹 How It Works:
 The client (e.g., a React app) sends a request specifying the exact data it wants.
