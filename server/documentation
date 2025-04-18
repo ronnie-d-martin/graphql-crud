@@ -1,5 +1,25 @@
 GraphQL is a query language for APIs and a runtime for handling those queries. It lets clients request exactly the data they need, nothing more and nothing less.
 
+In simpler terms:
+GraphQL is a way to interact with APIs that allows us get what exactly data we need or para makuha natin yung eksaktong data na kailangan natin. 
+It provides a flexible and efficient alternative to traditional REST APIs. dahil kapag nag request ka ng data kay rest apis ire-return niya sayo ung buong properties
+niya unlike in graphql you can Malaya mag declare kung ano fields or properties lang yung ire-return mo sa api.
+
+to give you an Analogy parang pag-order restaurant.
+Sa REST, minsan pinapadala sa'yo ang buong menu kahit adobo lang gusto mo.
+Sa GraphQL, ikaw mismo ang nagsasabi: "Pahingi po ng adobo at isang serving ng kanin.
+"At yun lang ang ibibigay ng server. Unlike REST, where you might get too much, GraphQL lets you specify exactly what fields you want. 
+
+sa pag process naman ng order mo dito na pumasok si apollo client and apollo server, si Apollo Client ay parang waiter na nag-oorder para sa customer and sinabi niya request mo kay apollo server. 
+si apollo server naman nag sisilbi siyang Kusinero, siya naman yung nag hahandle ng mga graqhQl quiries and mutation sa backend side. siya ung nag hahanda ng tamang data Ayun sa order ni customer.
+
+Apollo Server is an open-source GraphQL server that works with any GraphQL schema and allows you to define, fetch, and serve data using GraphQL queries.
+It acts as a middleware between the client and your data sources (like databases, REST APIs, or other services).
+Think of it as the backend part of a GraphQL stack.
+
+Apollo Client is a JavaScript library used to interact with a GraphQL API from the frontend. It manages fetching, caching, and updating data in your UI.
+It’s commonly used with frameworks like React, Vue, or Angular, and it works hand-in-hand with Apollo Server (but can also be used with any GraphQL API).
+
 🔹 How It Works:
 The client (e.g., a React app) sends a request specifying the exact data it wants.
 The server responds with just that data—no extra fields, no missing data.
