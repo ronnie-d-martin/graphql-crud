@@ -1,0 +1,118 @@
+🔍 What is GraphQL?
+GraphQL is a query language for APIs and a runtime for handling those queries.
+It allows clients to request exactly the data they need—nothing more, nothing less.
+
+In simpler terms:
+GraphQL is a way to interact with APIs para makuha natin yung eksaktong data na kailangan natin.
+It’s more flexible and efficient compared to REST.
+
+Sa REST, kapag nag-request ka ng data, minsan buong object or buong list yung ibinabalik kahit hindi mo naman kailangan lahat.
+Sa GraphQL, ikaw mismo ang magsasabi kung anong fields or properties lang ang gusto mong ibalik ng API.
+
+🍽️ Analogy Time: Parang Umuorder sa Restaurant
+REST API: Nag-order ka ng adobo, pero binigyan ka ng buong menu.
+
+GraphQL: Ikaw mismo ang nagsabi, “Pahingi po ng adobo at isang serving ng kanin.”
+At yun lang ang ibibigay ng server.
+
+⚙️ Apollo Client and Server
+🧑‍🍳 Apollo Server – The Kusinero (Backend)
+Apollo Server handles GraphQL queries and mutations.
+
+It connects to data sources (like databases or REST APIs).
+
+Think of it as the backend na naghahanda ng tamang data ayon sa order ng customer.
+
+🧑‍💼 Apollo Client – The Waiter (Frontend)
+Apollo Client is a JS library that sends requests and fetches data from a GraphQL server.
+
+It manages caching and updates the UI.
+
+Parang waiter na nag papasa ng order from the customer (user) to the kitchen (server).
+
+🛠️ Setup Guide for Apollo Server (Backend)
+Initialize Node.js project
+npm init --yes
+npm pkg set type="module"
+Default na pag initialize ng node.js project
+This allows us to use import/export instead of require.
+
+Install dependencies
+npm install @apollo/server graphql
+
+gagawa tayo ng entry point which is si server.js
+
+Install dependencies
+npm install @apollo/server graphql
+
+✅ What is it?
+startStandaloneServer is a helper function provided by Apollo Server that starts a GraphQL server without needing Express or any other web framework.
+
+🧠 Think of it like this:
+Usually sa Node.js, kailangan mo pa mag-setup ng Express app, mag-handle ng body parsing, CORS, etc.
+But with startStandaloneServer, lahat ng yan handled na agad para sayo. Less setup, more focus sa GraphQL logic.
+
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
+
+const server = new ApolloServer({ /* schema & resolvers here */ });
+
+const { url } = await startStandaloneServer(server, {
+  listen: { port: 4000 },
+});
+
+console.log(`🚀 Server running at: ${url}`);
+
+startStandaloneServer, ini-start niya ang server sa port 4000.
+Ang url ay yung address kung saan mo pwedeng i-access yung GraphQL server mo (usually something like http://localhost:4000/graphql).
+
+Ginamit natin ang await para hintayin na fully ma-start si server, then kinukuha natin yung url gamit ang { url } na shorthand.
+
+Pagkatapos, i-log natin sa terminal para alam natin na gumagana na at kung saan siya naka-host.
+
+GraphQL Core Elements
+🔹 typeDefs – Schema Definition
+Defines the types of data and the structure of queries/mutations.
+multi-line strings (like schema definitions or HTML templates), we use backticks ` — this is called a template literal.
+const typeDefs = `
+  type User {
+    id: ID
+    name: String
+    age: Int
+    isMarried: Boolean
+  }
+
+  type Query {
+    getUsers: [User]
+  }
+
+  type Mutation {
+    createUser(name: String!, age: Int!, isMarried: Boolean!): User
+  }
+`;
+
+resolvers – Logic Handlers
+Resolvers fetch or modify data based on the queries/mutation
+
+const users = [
+  { id: "1", name: "John Doe", age: 30, isMarried: true },
+  { id: "2", name: "Jane Smith", age: 25, isMarried: false },
+  { id: "3", name: "Alice Johnson", age: 28, isMarried: false },
+];
+
+const resolvers = {
+  Query: {
+    getUsers: () => users,
+  },
+  Mutation: {
+    createUser: (_, args) => {
+      const newUser = {
+        id: (users.length + 1).toString(),
+        ...args
+      };
+      users.push(newUser);
+      return newUser;
+    }
+  }
+};
+
