@@ -52,21 +52,21 @@ startStandaloneServer(server) starts the server without needing Express or other
 
 After the server starts, it logs the URL where it's running.
 
-to Understanding GraphQL Core Elements
-
+GraphQL Core Elements
 GraphQL has two main operations:
-
-Query (Fetching Data)
-
-A query is used to fetch data from the server, similar to a GET request in REST APIs.
-
-Mutation (Modifying Data)
-
-A mutation is used to modify data on the server, like POST, PUT, or DELETE in REST APIs.
-
 The typeDefs define the GraphQL schema. It describes what data clients can request and modify.
-
+Query (Fetching Data)
+A query is used to fetch data from the server, similar to a GET request in REST APIs.
+Mutation (Modifying Data)
+A mutation is used to modify data on the server, like POST, PUT, or DELETE in REST APIs.
 const typeDefs = `
+    type User {
+        id: ID
+        name: String
+        age: Int
+        isMarried: Boolean
+    }
+
     type Query {
         getUsers: [User]
         getUserById(id: ID!): User
@@ -75,19 +75,16 @@ const typeDefs = `
     type Mutation {
         createUser(name: String!,age: Int!,isMarried: Boolean!): User
     }
-
-    type User {
-        id: ID
-        name: String
-        age: Int
-        isMarried: Boolean
-    }
 `
-
 Resolvers are functions that helps Retrieve requested data for queries and Modify existing data for mutations.
-Connect queries/mutations with data sources (e.g., databases, APIs, in-memory storage).
+it Connect queries/mutations with data sources (e.g., databases, APIs, in-memory storage).
+interact with datasource and deal with the data.
 
-interact with datasource and deal with the data 
+const users = [
+    { id: "1", name: "John Doe", age: 30, isMarried: true },
+    { id: "2", name: "Jane Smith", age: 25, isMarried: false },
+    { id: "3", name: "Alice Johnson", age: 28, isMarried: false },
+];
 
 const resolvers = {
     Query: {
