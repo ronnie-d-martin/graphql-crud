@@ -74,6 +74,7 @@ GraphQL Core Elements
 🔹 typeDefs – Schema Definition
 Defines the types of data and the structure of queries/mutations.
 multi-line strings (like schema definitions or HTML templates), we use backticks ` — this is called a template literal.
+Built-in types
 const typeDefs = `
   type User {
     id: ID
