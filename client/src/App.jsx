@@ -29,22 +29,50 @@ const DELETE_USER = gql`
   }
 `;
 
+const UPDATE_USER = gql`
+  mutation UpdateUser($id: ID!, $name: String, $age: Int, $isMarried: Boolean) {
+    updateUser(id: $id, name: $name, age: $age, isMarried: $isMarried) {
+      id
+      name
+      age
+      isMarried
+    }
+  }
+`;
+
+
 function App() {
   const { data, loading, error, refetch } = useQuery(GET_USERS);
   const [createUser] = useMutation(CREATE_USER);
   const [deleteUser] = useMutation(DELETE_USER);
+  const [updateUser] = useMutation(UPDATE_USER);
+  const [editingId, setEditingId] = useState(null);
 
   const [form, setForm] = useState({ name: '', age: 0, isMarried: false });
-
-  const handleCreate = async () => {
-    await createUser({ variables: { ...form, age: Number(form.age) } });
-    refetch();
-    setForm({ name: '', age: 0, isMarried: false });
-  };
 
   const handleDelete = async (id) => {
     await deleteUser({ variables: { id } });
     refetch();
+  };
+
+  const handleSubmit = async () => {
+    if (editingId) {
+      await updateUser({ variables: { id: editingId, ...form, age: Number(form.age) } });
+    } else {
+      await createUser({ variables: { ...form, age: Number(form.age) } });
+    }
+    refetch();
+    setForm({ name: '', age: 0, isMarried: false });
+    setEditingId(null);
+  };
+
+  const handleEdit = (user) => {
+    setForm({
+      name: user.name,
+      age: user.age,
+      isMarried: user.isMarried,
+    });
+    setEditingId(user.id);
   };
 
   if (loading) return <p>Loading...</p>;
@@ -74,7 +102,9 @@ function App() {
         />
         Married
       </label>
-      <button onClick={handleCreate}>Create</button>
+      <button onClick={handleSubmit}>
+        {editingId ? 'Update' : 'Create'}
+      </button>
 
       <h2>User List</h2>
       {data.getUsers.map((user) => (
@@ -83,6 +113,7 @@ function App() {
           <p>Age: {user.age}</p>
           <p>Married: {user.isMarried ? 'Yes' : 'No'}</p>
           <button onClick={() => handleDelete(user.id)}>Delete</button>
+          <button onClick={() => handleEdit(user)}>Edit</button>
         </div>
       ))}
     </div>
