@@ -16,6 +16,7 @@ const typeDefs = `
     type Mutation {
         createUser(name: String!, age: Int!, isMarried: Boolean!): User
         deleteUser(id: ID!): User
+        updateUser(id: ID!, name: String, age: Int, isMarried: Boolean): User
     }
 
     type User {
@@ -28,34 +29,43 @@ const typeDefs = `
 
 const resolvers = {
     Query: {
-        getUsers: () => { return users },
+        getUsers: () => users,
         getUserById: (_, args) => {
-            const id = args.id;
-            const user = users.find(user => user.id === id);
-            return user;
+            return users.find(user => user.id === args.id);
         }
     },
     Mutation: {
-        createUser: (_, args) => {
-            const { name, age, isMarried } = args;
+        createUser: (_, { name, age, isMarried }) => {
             const newUser = {
                 id: (users.length + 1).toString(),
                 name,
                 age,
                 isMarried,
-            }
+            };
             users.push(newUser);
             return newUser;
         },
-        deleteUser: (_, args) => {
-            const userIndex = users.findIndex(user => user.id === args.id);
-            if (userIndex === -1) {
+        deleteUser: (_, { id }) => {
+            const index = users.findIndex(user => user.id === id);
+            if (index === -1) {
                 throw new Error("User not found");
             }
-            const [deletedUser] = users.splice(userIndex, 1);
-            return deletedUser; 
-        }
+            const [deletedUser] = users.splice(index, 1);
+            return deletedUser;
+        },
+        updateUser: (_, args) => {
+            const { id, name, age, isMarried } = args;
+            const user = users.find(user => user.id === id);
+            if (!user) {
+                throw new Error("User not found");
+            }
 
+            if (name !== undefined) user.name = name;
+            if (age !== undefined) user.age = age;
+            if (isMarried !== undefined) user.isMarried = isMarried;
+
+            return user;
+        }
     }
 }
 
