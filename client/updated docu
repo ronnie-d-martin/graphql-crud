@@ -26,7 +26,6 @@ Parang waiter na nag papasa ng order from the customer (user) to the kitchen (se
 Apollo Server – The Kusinero (Backend)
 Apollo Server handles GraphQL queries and mutations.
 It connects to data sources (like databases or REST APIs).
-
 Think of it as the backend na naghahanda ng tamang data ayon sa order ng customer.
 
 🛠️ Setup Guide for Apollo Server (Backend)
@@ -39,20 +38,17 @@ This allows us to use import/export instead of require.
 Install dependencies
 npm install @apollo/server graphql
 
-gagawa tayo ng entry point which is si server.js
+gawa tayo ng entry point which is si server.js
 
-Install dependencies
-npm install @apollo/server graphql
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
 
 What is it?
 startStandaloneServer is a helper function provided by Apollo Server that starts a GraphQL server without needing Express or any other web framework.
 
-Think of it like this:
+Isipin niyo siya
 Usually sa Node.js, kailangan mo pa mag-setup ng Express app, mag-handle ng body parsing, CORS, etc.
 But with startStandaloneServer, lahat ng yan handled na agad para sayo. Less setup, more focus sa GraphQL logic.
-
-import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
 
 const server = new ApolloServer({ /* schema & resolvers here */ });
 
@@ -63,10 +59,8 @@ const { url } = await startStandaloneServer(server, {
 console.log(`Server running at: ${url}`);
 
 startStandaloneServer, ini-start niya ang server sa port 4000.
-Ang url ay yung address kung saan mo pwedeng i-access yung GraphQL server mo (usually something like http://localhost:4000/graphql).
-
+Ang url ay yung address kung saan mo pwedeng i-access yung GraphQL server (usually something like http://localhost:4000/graphql).
 Ginamit natin ang await para hintayin na fully ma-start si server, then kinukuha natin yung url gamit ang { url } na shorthand.
-
 Pagkatapos, i-log natin sa terminal para alam natin na gumagana na at kung saan siya naka-host.
 
 GraphQL Core Elements
@@ -74,6 +68,16 @@ typeDefs – Schema Definition
 Defines the types of data and the structure of queries/mutations.
 multi-line strings (like schema definitions or HTML templates), we use backticks ` — this is called a template literal.
 Built-in types
+
+const users = [
+  { id: "1", name: "John Doe", age: 30, isMarried: true },
+  { id: "2", name: "Jane Smith", age: 25, isMarried: false },
+  { id: "3", name: "Alice Johnson", age: 28, isMarried: false },
+];
+
+backtick = template literals, which allow for string interpolation and multi-line strings
+sa GraphQL, scalar types ang mga basic or primitive data types
+
 const typeDefs = `
   type User {
     id: ID
@@ -94,15 +98,9 @@ const typeDefs = `
 resolvers – Logic Handlers
 Resolvers fetch or modify data based on the queries/mutation
 
-const users = [
-  { id: "1", name: "John Doe", age: 30, isMarried: true },
-  { id: "2", name: "Jane Smith", age: 25, isMarried: false },
-  { id: "3", name: "Alice Johnson", age: 28, isMarried: false },
-];
-
 const resolvers = {
   Query: {
-    getUsers: () => users,
+    getUsers: () => return users,
   },
   Mutation: {
     createUser: (_, args) => {
@@ -118,14 +116,23 @@ const resolvers = {
 
 Sa GraphQL resolver function, may standard na apat na parameters:
 (parent, args, context, info)
-Result ito ng previous resolver sa hierarchy.
+parent ay yung "pinanggalingan" na field. Kapag nested yung query mo, ito ang connection sa previous result.
 Pero kung wala kang kailangan sa parent, pwede mo lang gamitin _ as a placeholder.
-Ito yung arguments na galing sa GraphQL query/mutation natin.
-Dito natin kinukuha yung id, name, age, isMarried, etc.
 
 Bakit underscore _?
 Ginagamit ang _ as a convention para sabihin na:
 "Okay lang na nandyan si parent, pero hindi ko siya kailangan gamitin."
+
+Ito yung arguments na galing sa GraphQL query/mutation natin.
+Dito natin kinukuha yung id, name, age, isMarried, etc.
+
+Parang "global baggage" siya na pwede mong dalhin sa kahit anong resolver.
+Shared object sa buong request lifecycle.
+Dito usually nilalagay ang:
+Auth info (e.g. JWT token, user info)
+DB connection
+
+Mostly ginagamit lang 'to sa mga special cases tulad ng query tracing, schema stitching, or advanced logging.
 
 Client side: 
 apollo-client.js
