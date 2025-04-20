@@ -17,6 +17,8 @@ const CREATE_USER = gql`
     createUser(name: $name, age: $age, isMarried: $isMarried) {
       id
       name
+      age
+      isMarried
     }
   }
 `;
@@ -112,8 +114,8 @@ function App() {
           <p><strong>{user.name}</strong></p>
           <p>Age: {user.age}</p>
           <p>Married: {user.isMarried ? 'Yes' : 'No'}</p>
-          <button onClick={() => handleDelete(user.id)}>Delete</button>
           <button onClick={() => handleEdit(user)}>Edit</button>
+          <button onClick={() => handleDelete(user.id)}>Delete</button>
         </div>
       ))}
     </div>
