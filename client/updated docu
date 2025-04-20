@@ -117,3 +117,13 @@ const resolvers = {
   }
 };
 
+Sa GraphQL resolver function, may standard na apat na parameters:
+(parent, args, context, info)
+Result ito ng previous resolver sa hierarchy.
+Pero kung wala kang kailangan sa parent, pwede mo lang gamitin _ as a placeholder.
+Ito yung arguments na galing sa GraphQL query/mutation natin.
+Dito natin kinukuha yung id, name, age, isMarried, etc.
+
+Bakit underscore _?
+Ginagamit ang _ as a convention para sabihin na:
+"Okay lang na nandyan si parent, pero hindi ko siya kailangan gamitin."
