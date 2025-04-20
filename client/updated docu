@@ -16,6 +16,13 @@ GraphQL: Ikaw mismo ang nagsabi, “Pahingi po ng adobo at isang serving ng kani
 At yun lang ang ibibigay ng server.
 
 Apollo Client and Server
+Apollo Client – The Waiter (Frontend)
+Apollo Client is a JS library that sends requests and fetches data from a GraphQL server.
+
+It manages caching and updates the UI.
+
+Parang waiter na nag papasa ng order from the customer (user) to the kitchen (server).
+
 Apollo Server – The Kusinero (Backend)
 Apollo Server handles GraphQL queries and mutations.
 
@@ -23,12 +30,7 @@ It connects to data sources (like databases or REST APIs).
 
 Think of it as the backend na naghahanda ng tamang data ayon sa order ng customer.
 
-Apollo Client – The Waiter (Frontend)
-Apollo Client is a JS library that sends requests and fetches data from a GraphQL server.
 
-It manages caching and updates the UI.
-
-Parang waiter na nag papasa ng order from the customer (user) to the kitchen (server).
 
 🛠️ Setup Guide for Apollo Server (Backend)
 Initialize Node.js project
