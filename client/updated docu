@@ -25,12 +25,9 @@ Parang waiter na nag papasa ng order from the customer (user) to the kitchen (se
 
 Apollo Server – The Kusinero (Backend)
 Apollo Server handles GraphQL queries and mutations.
-
 It connects to data sources (like databases or REST APIs).
 
 Think of it as the backend na naghahanda ng tamang data ayon sa order ng customer.
-
-
 
 🛠️ Setup Guide for Apollo Server (Backend)
 Initialize Node.js project
