@@ -2,7 +2,7 @@ import { gql, useQuery, useMutation } from '@apollo/client';
 import { useState } from 'react';
 
 const GET_USERS = gql`
-  query {
+  query GetUsers{
     getUsers {
       id
       name
