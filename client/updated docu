@@ -28,7 +28,7 @@ Apollo Server handles GraphQL queries and mutations.
 It connects to data sources (like databases or REST APIs).
 Think of it as the backend na naghahanda ng tamang data ayon sa order ng customer.
 
-🛠️ Setup Guide for Apollo Server (Backend)
+Setup Guide for Apollo Server (Backend)
 Initialize Node.js project
 npm init --yes
 npm pkg set type="module"
@@ -135,7 +135,15 @@ DB connection
 Mostly ginagamit lang 'to sa mga special cases tulad ng query tracing, schema stitching, or advanced logging.
 
 Client side: 
-apollo-client.js
+npm create vite@latest client --template react
+npm install @apollo/client graphql
+
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: 'http://localhost:4001/', 
+  cache: new InMemoryCache(),
+});
 
 ApolloClient – Ito yung main object na ginagamit mo para makipag-communicate sa GraphQL server.
 Parang messenger siya ng React app mo para mag-query/mutation sa GraphQL backend.
@@ -143,6 +151,8 @@ Parang messenger siya ng React app mo para mag-query/mutation sa GraphQL backend
 InMemoryCache – Ito naman yung local storage/cache ng Apollo.
 Ini-store niya ang data na galing sa server para hindi ka paulit-ulit mag-fetch kapag pareho lang ang data.
 i-optimize performance (less server calls)
+
+ApolloProvider lets all your components use GraphQL via the useQuery, useMutation, etc. hooks.
 
 gql - formatter or marker = tag function para sabihin na GraphQL operation ito 
 useQuery = pangkuha ng data (GET)
