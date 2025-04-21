@@ -1,32 +1,20 @@
 What is GraphQL?
-GraphQL is a query language for APIs and a runtime for handling those queries.
-It allows clients to request exactly the data they need—nothing more, nothing less.
-
-sa madaling salita
-GraphQL is a way to interact with APIs para makuha natin yung eksaktong data na kailangan natin.
-It’s more flexible and efficient compared to REST.
+GraphQL is a query language and runtime that lets you interact with your API in a more flexible and efficient way.
+Instead of getting too much or too little data, clients can request exactly what they need — nothing more, nothing less.
+It also provides a clear, self-explaining structure of your API, making it easier to understand, evolve, and maintain.
 
 Sa REST, kapag nag-request ka ng data, minsan buong object or buong list yung ibinabalik kahit hindi mo naman kailangan lahat.
 Sa GraphQL, ikaw mismo ang magsasabi kung anong fields or properties lang ang gusto mong ibalik ng API.
 
-🍽️ Analogy Time: Parang Umuorder sa Restaurant
-REST API: Nag-order ka ng adobo, pero binigyan ka ng buong menu.
-
-GraphQL: Ikaw mismo ang nagsabi, “Pahingi po ng adobo at isang serving ng kanin.”
-At yun lang ang ibibigay ng server.
+While typical REST APIs require loading from multiple URLs, GraphQL APIs get all the data your app needs in a single request.
 
 Apollo Client and Server
-Apollo Client – The Waiter (Frontend)
 Apollo Client is a JS library that sends requests and fetches data from a GraphQL server.
-
 It manages caching and updates the UI.
-
 Parang waiter na nag papasa ng order from the customer (user) to the kitchen (server).
 
-Apollo Server – The Kusinero (Backend)
 Apollo Server handles GraphQL queries and mutations.
-It connects to data sources (like databases or REST APIs).
-Think of it as the backend na naghahanda ng tamang data ayon sa order ng customer.
+It connects to data sources think of it as the backend na naghahanda ng tamang data ayon sa order ng customer.
 
 Setup Guide for Apollo Server (Backend)
 Initialize Node.js project
@@ -154,21 +142,62 @@ i-optimize performance (less server calls)
 
 ApolloProvider lets all your components use GraphQL via the useQuery, useMutation, etc. hooks.
 
+import { gql, useQuery, useMutation } from '@apollo/client';
+const GET_USERS = gql`
+  query {
+    getUsers {
+      id
+      name
+      age
+      isMarried
+    }
+  }
+`;
+
 gql - formatter or marker = tag function para sabihin na GraphQL operation ito 
-useQuery = pangkuha ng data (GET)
-useMutation = pang-send ng data (POST, PUT, DELETE style sa REST)
 
 const { data, loading, error, refetch } = useQuery(GET_USERS);
 if (loading) return <p>Loading...</p>;
 if (error) return <p>Error loading users</p>;
 
- <h2>User List</h2>
+ <div>
+      <h2>User list</h2>
       {data.getUsers.map((user) => (
-        <div key={user.id} style={{ border: '1px solid gray', padding: 10, marginBottom: 10 }}>
-          <p><strong>{user.name}</strong></p>
-          <p>Age: {user.age}</p>
-          <p>Married: {user.isMarried ? 'Yes' : 'No'}</p>
-          <button onClick={() => handleEdit(user)}>Edit</button>
-          <button onClick={() => handleDelete(user.id)}>Delete</button>
+        <div key={user.id}>
+          <p>name:{user.name}</p>
+          <p>age:{user.age}</p>
+          <p>isMarried:{user.isMarried}</p>
         </div>
       ))}
+  </div>
+
+const [createUser] = useMutation(CREATE_USER);
+const [form, setForm] = useState({ name: '', age: 0, isMarried: false });
+
+   <h2>Create User</h2>
+      <input
+        placeholder="Name"
+        value={form.name}
+        onChange={(e) => setForm({ ...form, name: e.target.value })}
+      />
+
+      <input
+        placeholder="Age"
+        value={form.age}
+        onChange={(e) => setForm({ ...form, age: parseInt(e.target.value) })}
+      />
+      <label>
+        <input
+          type="checkbox"
+          checked={form.isMarried}
+          onChange={(e) => setForm({ ...form, isMarried: e.target.checked })}
+        />
+        Married
+      </label>
+
+  const handleSubmit = async () => {
+    await createUser({ variables: { ...form, age: Number(form.age) } });
+    setForm({ name: "", age: 0, isMarried: false });
+  };
+
+
