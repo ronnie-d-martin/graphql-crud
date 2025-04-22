@@ -111,7 +111,7 @@ function App() {
       <h2>User List</h2>
       {data.getUsers.map((user) => (
         <div key={user.id} style={{ border: '1px solid gray', padding: 10, marginBottom: 10 }}>
-          <p><strong>{user.name}</strong></p>
+          <p><strong>Name: {user.name}</strong></p>
           <p>Age: {user.age}</p>
           <p>Married: {user.isMarried ? 'Yes' : 'No'}</p>
           <button onClick={() => handleEdit(user)}>Edit</button>
