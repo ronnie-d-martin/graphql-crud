@@ -8,6 +8,13 @@ const users = [
 ];
 
 const typeDefs = `
+    type User {
+        id: ID
+        name: String
+        age: Int
+        isMarried: Boolean
+    }
+    
     type Query {
         getUsers: [User]
         getUserById(id: ID!): User
@@ -18,21 +25,11 @@ const typeDefs = `
         deleteUser(id: ID!): User
         updateUser(id: ID!, name: String, age: Int, isMarried: Boolean): User
     }
-
-    type User {
-        id: ID
-        name: String
-        age: Int
-        isMarried: Boolean
-    }
 `
 
 const resolvers = {
     Query: {
-        getUsers: () => users,
-        getUserById: (_, args) => {
-            return users.find(user => user.id === args.id);
-        }
+        getUsers: () => users
     },
     Mutation: {
         createUser: (_, { name, age, isMarried }) => {
