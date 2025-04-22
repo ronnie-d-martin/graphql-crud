@@ -1,12 +1,10 @@
 What is GraphQL?
-GraphQL is a query language and runtime that lets you interact with your API in a more flexible and efficient way.
 Instead of getting too much or too little data, clients can request exactly what they need — nothing more, nothing less.
-It also provides a clear, self-explaining structure of your API, making it easier to understand, evolve, and maintain.
 
 Sa REST, kapag nag-request ka ng data, minsan buong object or buong list yung ibinabalik kahit hindi mo naman kailangan lahat.
 Sa GraphQL, ikaw mismo ang magsasabi kung anong fields or properties lang ang gusto mong ibalik ng API.
 
-While typical REST APIs require loading from multiple URLs, GraphQL APIs get all the data your app needs in a single request.
+GraphQL APIs get all the data your app needs in a single request.
 
 Apollo Client and Server
 Apollo Client is a JS library that sends requests and fetches data from a GraphQL server.
@@ -47,8 +45,8 @@ const { url } = await startStandaloneServer(server, {
 console.log(`Server running at: ${url}`);
 
 startStandaloneServer, ini-start niya ang server sa port 4000.
-Ang url ay yung address kung saan mo pwedeng i-access yung GraphQL server (usually something like http://localhost:4000/graphql).
-Ginamit natin ang await para hintayin na fully ma-start si server, then kinukuha natin yung url gamit ang { url } na shorthand.
+Ginamit natin ang await para hintayin na fully ma-start si server, 
+then kinukuha natin yung url gamit ang { url } na shorthand.
 Pagkatapos, i-log natin sa terminal para alam natin na gumagana na at kung saan siya naka-host.
 
 GraphQL Core Elements
@@ -104,7 +102,8 @@ const resolvers = {
 
 Sa GraphQL resolver function, may standard na apat na parameters:
 (parent, args, context, info)
-parent ay yung "pinanggalingan" na field. Kapag nested yung query mo, ito ang connection sa previous result.
+parent ay yung "pinanggalingan" na field. 
+Kapag nested yung query mo, ito ang connection sa previous result.
 Pero kung wala kang kailangan sa parent, pwede mo lang gamitin _ as a placeholder.
 
 Bakit underscore _?
