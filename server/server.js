@@ -17,7 +17,6 @@ const typeDefs = `
     
     type Query {
         getUsers: [User]
-        getUserById(id: ID!): User
     }
 
     type Mutation {
@@ -29,7 +28,7 @@ const typeDefs = `
 
 const resolvers = {
     Query: {
-        getUsers: () => users
+        getUsers: () => { return users }
     },
     Mutation: {
         createUser: (_, { name, age, isMarried }) => {
