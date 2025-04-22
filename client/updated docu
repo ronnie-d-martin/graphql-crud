@@ -160,16 +160,16 @@ const { data, loading, error, refetch } = useQuery(GET_USERS);
 if (loading) return <p>Loading...</p>;
 if (error) return <p>Error loading users</p>;
 
- <div>
+  <div>
       <h2>User list</h2>
       {data.getUsers.map((user) => (
         <div key={user.id}>
-          <p>name:{user.name}</p>
-          <p>age:{user.age}</p>
-          <p>isMarried:{user.isMarried}</p>
+          <p>Name:{user.name}</p>
+          <p>Age: {user.age}</p>
+          <p>Married: {user.isMarried ? "Yes" : "No"}</p>
         </div>
       ))}
-  </div>
+    </div>
 
 const [createUser] = useMutation(CREATE_USER);
 const [form, setForm] = useState({ name: '', age: 0, isMarried: false });
