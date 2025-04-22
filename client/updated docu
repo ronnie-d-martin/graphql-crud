@@ -194,6 +194,7 @@ const [form, setForm] = useState({ name: '', age: 0, isMarried: false });
         />
         Married
       </label>
+  <button onClick={handleSubmit}>Create</button>
 
   const handleSubmit = async () => {
     await createUser({ variables: { ...form, age: Number(form.age) } });
